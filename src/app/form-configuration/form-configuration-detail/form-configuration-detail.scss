@@ -1,0 +1,105 @@
+.container {
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.status-toggle {
+  margin-right: 8px;
+}
+
+.detail-card {
+  margin-bottom: 24px;
+}
+
+.card-content-padding {
+  padding: 16px;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 16px 24px;
+  align-items: center;
+  font-size: 16px;
+}
+
+.detail-label {
+  font-weight: 500;
+}
+
+.inline-edit-field {
+  .mat-form-field-wrapper {
+    padding-bottom: 0;
+    font-size: 16px;
+  }
+}
+
+.section-divider {
+  margin: 16px 0;
+}
+
+.form-details-line {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 16px;
+
+  strong {
+    font-weight: 500;
+  }
+
+  .spaced-label {
+    margin-left: 24px;
+  }
+}
+
+.add-association-form {
+  margin-top: 20px;
+}
+
+.placeholder {
+  color: #999;
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+}
+
+mat-chip-grid {
+  width: 100%;
+}
+
+.status-indicator {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 16px;
+  color: white;
+  background-color: #f44336; /* Red for Inactive */
+  font-size: 14px;
+  font-weight: 500;
+
+  &.active {
+    background-color: #4caf50; /* Green for Active */
+  }
+}

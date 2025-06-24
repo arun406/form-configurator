@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="header">
+    <h1>Form Configurations</h1>
+    <button mat-flat-button color="primary" (click)="openAddDialog()">
+      <mat-icon>add</mat-icon>
+      Add Configuration
+    </button>
+  </div>
+
+  <table mat-table [dataSource]="(configurations$ | async) ?? []" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="formConfigCode">
+      <th mat-header-cell *matHeaderCellDef> Config Code </th>
+      <td mat-cell *matCellDef="let config"> {{config.formConfigCode}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="clientName">
+      <th mat-header-cell *matHeaderCellDef> Client </th>
+      <td mat-cell *matCellDef="let config"> {{config.client.clientName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="formCode">
+      <th mat-header-cell *matHeaderCellDef> Form Code </th>
+      <td mat-cell *matCellDef="let config"> {{config.form.formCode}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="formName">
+      <th mat-header-cell *matHeaderCellDef> Form Name </th>
+      <td mat-cell *matCellDef="let config"> {{config.form.formName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="formVersion">
+      <th mat-header-cell *matHeaderCellDef> Form Version </th>
+      <td mat-cell *matCellDef="let config"> v{{config.form.formVersion}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="version">
+      <th mat-header-cell *matHeaderCellDef> Config Version </th>
+      <td mat-cell *matCellDef="let config"> v{{config.version}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let config">
+        <span class="status" [class.active]="config.status">
+          {{ config.status ? 'Active' : 'Inactive' }}
+        </span>
+      </td>
+    </ng-container>
+    
+
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let config">
+        <button mat-icon-button (click)="viewConfiguration(config.id)" aria-label="View Details">
+          <mat-icon>visibility</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="viewConfiguration(row.id)" class="clickable-row"></tr>
+  </table>
+</div>

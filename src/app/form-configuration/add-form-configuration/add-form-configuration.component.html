@@ -1,0 +1,118 @@
+<div class="container">
+  <div class="header">
+    <a mat-icon-button routerLink="/form-configuration" aria-label="Back to configuration list">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1>Add New Form Configuration</h1>
+  </div>
+
+  <form class="config-grid" [formGroup]="configForm" (ngSubmit)="onSave()">
+    <!-- Left Side: Configuration Form -->
+    <div class="config-form">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Configuration Details</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="card-content-padding">
+          <mat-form-field appearance="outline">
+            <mat-label>Form Config Code</mat-label>
+            <input matInput formControlName="formConfigCode" required>
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Client</mat-label>
+            <mat-select formControlName="clientId" required>
+              <mat-option *ngFor="let client of clients$ | async" [value]="client.id">
+                {{ client.clientName }} ({{ client.clientCode }})
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Form</mat-label>
+            <mat-select formControlName="formId" required>
+              <mat-option *ngFor="let form of forms$ | async" [value]="form.id">
+                {{ form.formCode }} - {{ form.formName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <div *ngIf="selectedForm$ | async as selectedForm" class="form-details-box">
+            <div>{{ selectedForm.formName }}</div>
+            <div class="version-chip">v{{ selectedForm.formVersion }}</div>
+          </div>
+
+          <mat-slide-toggle formControlName="status" color="primary">
+            Status: {{ configForm.get('status')?.value ? 'Active' : 'Inactive' }}
+          </mat-slide-toggle>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-flat-button color="primary" type="submit" [disabled]="!configForm.valid">Save Configuration</button>
+        </mat-card-actions>
+      </mat-card>
+      
+      <!-- New Associations Card -->
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Entity Associations</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="card-content-padding" formArrayName="associations">
+            <ng-container *ngIf="configForm.get('clientId')?.value; else noClientSelected">
+              <mat-chip-set #chipSet aria-label="Entity associations">
+                <mat-chip-row *ngFor="let assoc of associations.controls; let i = index" [formGroupName]="i" (removed)="removeAssociation(i)">
+                  {{ assoc.value.entityId }} ({{ assoc.value.entityType }})
+                  <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip-row>
+              </mat-chip-set>
+
+              <div class="add-association-form">
+                <mat-form-field appearance="outline">
+                  <mat-label>Add Entity</mat-label>
+                  <mat-select #entitySelect (selectionChange)="addAssociation(entitySelect.value); entitySelect.value = ''">
+                    <mat-option *ngFor="let entity of availableEntities" [value]="entity">
+                      {{ entity.entityId }} - {{ entity.entityName }} ({{ entity.entityType }})
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              
+              <p *ngIf="associations.length === 0 && availableEntities.length > 0" class="placeholder">
+                No entities associated. Add them from the dropdown above.
+              </p>
+
+              <p *ngIf="availableEntities.length === 0 && associations.length === 0" class="placeholder">
+                The selected client has no entities to associate.
+              </p>
+
+            </ng-container>
+            
+            <ng-template #noClientSelected>
+              <p class="placeholder">Please select a Client to see available entities.</p>
+            </ng-template>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+
+    <!-- Right Side: Form Preview -->
+    <div class="form-preview">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Form Preview</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <ng-container *ngIf="(previewFields$ | async) as fields">
+            <div *ngIf="fields.length > 0; else noFormSelected">
+              <formly-form [model]="previewModel" [fields]="fields"></formly-form>
+            </div>
+          </ng-container>
+          <ng-template #noFormSelected>
+            <p class="placeholder">Select a form to see a preview.</p>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,145 @@
+.detail-container {
+  padding: 24px;
+}
+.mat-mdc-card-header {
+  display: flex;
+  padding: 16px 16px 16px 16px;
+}
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+    flex-grow: 1;
+  }
+}
+
+.header-input {
+  flex-grow: 1;
+  font-size: 24px; /* Match h1 */
+  .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+  input {
+    font-weight: 500;
+  }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.edit-fields {
+  display: flex;
+  flex-direction: column;
+}
+
+.status-field {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 16px;
+}
+
+.add-entity-form {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0,0,0,0.12);
+
+  mat-form-field {
+    flex: 1;
+  }
+}
+
+.status {
+  padding: 4px 12px;
+  border-radius: 16px;
+  color: white;
+  background-color: #f44336; /* Red for Inactive */
+  font-size: 14px;
+  font-weight: 500;
+
+  &.active {
+    background-color: #4caf50; /* Green for Active */
+  }
+}
+
+.detail-card {
+  margin-bottom: 24px;
+}
+
+.detail-item {
+  margin-bottom: 16px;
+  font-size: 16px;
+
+  strong {
+    font-weight: 500;
+    margin-right: 8px;
+  }
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 16px 24px;
+  align-items: center;
+  font-size: 16px;
+}
+
+.status-indicator {
+  justify-self: start;
+}
+
+.detail-label {
+  font-weight: 500;
+}
+
+.chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.entity-chip {
+  background-color: #e0e0e0; /* A light grey for a subtle look */
+  color: #333;
+}
+
+.not-found {
+  padding: 48px;
+  text-align: center;
+
+  h2 {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 18px;
+    margin-bottom: 24px;
+  }
+}
+
+.status-indicator {
+  width: max-content;
+  padding: 4px 8px;
+  border-radius: 12px;
+  color: white;
+  background-color: #f44336; /* Red for Inactive */
+}
+
+.status-indicator.active {
+  background-color: #4caf50; /* Green for Active */
+}

@@ -1,0 +1,110 @@
+<div class="detail-container" *ngIf="client">
+  <form [formGroup]="clientForm" (ngSubmit)="onSave()">
+    
+    <!-- Header -->
+    <div class="header">
+      <a mat-icon-button routerLink="/clients" aria-label="Back to client list">
+        <mat-icon>arrow_back</mat-icon>
+      </a>
+      <h1>{{ client.clientName }}</h1>
+      <div class="header-actions">
+        <button mat-icon-button (click)="toggleEditMode()" type="button" *ngIf="!isEditMode">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="toggleEditMode()" type="button" *ngIf="isEditMode">
+          <mat-icon>cancel</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" type="submit" *ngIf="isEditMode" [disabled]="!clientForm.valid">
+          <mat-icon>save</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Client Details Card -->
+    <mat-card class="detail-card">
+      <mat-card-header class="detail-card-header">
+        <mat-card-title>Client Details</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="!isEditMode" class="details-grid">
+          <strong class="detail-label">Client Code</strong>
+          <span>{{ client.clientCode }} (Read-only)</span>
+          
+          <strong class="detail-label">Domain</strong>
+          <span>{{ domainDisplayName }}</span>
+
+          <strong class="detail-label">Description</strong>
+          <span>{{ client.description }}</span>
+
+          <strong class="detail-label">Status</strong>
+          <div>
+            <span class="status-indicator" [class.active]="client.status">
+              {{ client.status ? 'Active' : 'Inactive' }}
+            </span>
+          </div>
+        </div>
+        <div *ngIf="isEditMode" class="edit-fields">
+          <mat-form-field appearance="outline">
+            <mat-label>Domain</mat-label>
+            <mat-select formControlName="domain">
+              <mat-option *ngFor="let d of domains" [value]="d.value">{{ d.viewValue }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+          </mat-form-field>
+          <div class="status-field">
+            <strong>Status</strong>
+            <mat-slide-toggle formControlName="status" color="primary"></mat-slide-toggle>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Entities Card -->
+    <mat-card class="detail-card" formArrayName="entities">
+      <mat-card-header>
+        <mat-card-title>Entities</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chip-grid">
+          <mat-chip-set>
+            <mat-chip *ngFor="let entity of entities.controls; let i=index" [removable]="isEditMode" (removed)="removeEntity(i)" class="entity-chip">
+              <strong>{{ entity.value.entityType }}:</strong>&nbsp;{{ entity.value.entityId }}
+              <mat-icon matChipRemove *ngIf="isEditMode">cancel</mat-icon>
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+        <div *ngIf="isEditMode" class="add-entity-form">
+          <mat-form-field appearance="outline">
+            <mat-label>New Entity Type</mat-label>
+            <mat-select #newEntityType>
+              <mat-option *ngFor="let type of entityTypes" [value]="type">{{ type }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>New Entity ID</mat-label>
+            <mat-select #newEntityId>
+              <mat-option *ngFor="let id of entityIds[newEntityType.value]" [value]="id">{{ id }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>New Entity Name</mat-label>
+            <input matInput #newEntityName>
+          </mat-form-field>
+          <button mat-stroked-button color="primary" type="button" (click)="addEntity(newEntityType.value, newEntityId.value, newEntityName.value)">Add</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </form>
+</div>
+
+<ng-template #notFound>
+  <div class="not-found">
+    <h2>Client not found</h2>
+    <p>The client you are looking for does not exist.</p>
+    <a mat-flat-button color="primary" routerLink="/clients">Return to Client List</a>
+  </div>
+</ng-template>

@@ -1,0 +1,52 @@
+.container {
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+  }
+}
+
+table {
+  width: 100%;
+}
+
+td.mat-cell, th.mat-header-cell {
+  padding-right: 16px;
+}
+
+td.mat-cell:last-of-type, th.mat-header-cell:last-of-type {
+  text-align: right;
+  padding-right: 24px;
+}
+
+.mat-elevation-z8 {
+  width: 100%;
+}
+
+.clickable-row {
+  cursor: pointer;
+}
+
+.clickable-row:hover {
+  background-color: #f5f5f5;
+}
+
+.status {
+  padding: 4px 8px;
+  border-radius: 12px;
+  color: white;
+  background-color: #f44336; // Red for Inactive
+
+  &.active {
+    background-color: #4caf50; // Green for Active
+  }
+}

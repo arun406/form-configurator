@@ -1,0 +1,91 @@
+<div class="container" *ngIf="config; else loading">
+  <form [formGroup]="configForm" (ngSubmit)="onSave()">
+    <div class="header">
+      <div>
+        <a mat-icon-button routerLink="/form-configuration" aria-label="Back to configuration list">
+          <mat-icon>arrow_back</mat-icon>
+        </a>
+        <h1>{{ configForm.get('formConfigCode')?.value }}</h1>
+      </div>
+      <div class="header-actions">
+        <button *ngIf="!editMode" mat-icon-button (click)="toggleEditMode()" type="button" aria-label="Edit configuration">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button *ngIf="editMode" mat-icon-button (click)="toggleEditMode()" type="button" aria-label="Cancel edit">
+          <mat-icon>cancel</mat-icon>
+        </button>
+        <button *ngIf="editMode" mat-icon-button color="primary" type="submit" [disabled]="!configForm.valid" aria-label="Save configuration">
+          <mat-icon>save</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Details Card -->
+    <mat-card class="detail-card">
+      <mat-card-header>
+        <mat-card-title>Configuration Details</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="card-content-padding">
+        <div class="details-grid">
+          <strong class="detail-label">Client</strong>
+          <span>{{ client.clientName }} ({{ client.clientCode }})</span>
+
+          <strong class="detail-label">Version</strong>
+          <span>v{{ config.version }}</span>
+
+          <strong class="detail-label">Status</strong>
+          <div>
+            <span *ngIf="!editMode" class="status-indicator" [class.active]="config.status">
+              {{ config.status ? 'Active' : 'Inactive' }}
+            </span>
+            <mat-slide-toggle *ngIf="editMode" formControlName="status" color="primary"></mat-slide-toggle>
+          </div>
+        </div>
+
+        <mat-divider class="section-divider"></mat-divider>
+
+        <div class="form-details-line">
+          <strong>Form:</strong> <span>{{ form.formName }}</span>
+          <strong class="spaced-label">Code:</strong> <span>{{ form.formCode }}</span>
+          <strong class="spaced-label">Version:</strong> <span>v{{ form.formVersion }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Associations Card -->
+    <mat-card class="detail-card">
+      <mat-card-header>
+        <mat-card-title>Entity Associations</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="card-content-padding" formArrayName="associations">
+        <mat-chip-set #chipSet aria-label="Entity associations">
+          <mat-chip-row *ngFor="let assoc of associations.controls; let i = index" [formGroupName]="i">
+            {{ assoc.value.entityId }} ({{ assoc.value.entityType }})
+            <button matChipRemove *ngIf="editMode" (click)="removeAssociation(i)">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        </mat-chip-set>
+
+        <div *ngIf="editMode" class="add-association-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Add Entity</mat-label>
+            <mat-select #entitySelect (selectionChange)="addAssociation(entitySelect.value); entitySelect.value = ''">
+              <mat-option *ngFor="let entity of availableEntities" [value]="entity">
+                {{ entity.entityId }} - {{ entity.entityName }} ({{ entity.entityType }})
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        
+        <p *ngIf="!editMode && associations.length === 0" class="placeholder">
+          No entities associated with this configuration.
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>
+
+<ng-template #loading>
+  <p>Loading configuration...</p>
+</ng-template>

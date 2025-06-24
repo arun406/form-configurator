@@ -1,0 +1,37 @@
+<mat-sidenav-container class="sidenav-container" autosize>
+  <mat-sidenav #drawer class="sidenav" 
+      [class.collapsed]="isCollapsed"
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="true">
+    
+    <!-- Menu Header with Toggle Button -->
+    <div class="menu-header">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="toggleMenu()"
+        class="menu-toggle">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="menu-title" *ngIf="!isCollapsed">Menu</span>
+    </div>
+
+    <!-- Navigation Items -->
+    <mat-nav-list>
+      <a mat-list-item routerLink="/clients" class="nav-item">
+        <mat-icon matListItemIcon>apps</mat-icon>
+        <span matListItemTitle *ngIf="!isCollapsed">Clients</span>
+      </a>
+      <a mat-list-item routerLink="/form-configuration" class="nav-item">
+        <mat-icon matListItemIcon>settings</mat-icon>
+        <span matListItemTitle *ngIf="!isCollapsed">Form Configuration</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

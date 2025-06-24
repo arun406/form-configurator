@@ -1,0 +1,82 @@
+.container {
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+  }
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 800px; /* Constrain form width */
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px 16px; /* Adjust padding to align with content */
+}
+
+.chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.add-entity-form {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0,0,0,0.12);
+
+  button {
+    height: 56px; /* Match standard mat-form-field height */
+  }
+}
+
+.entity-fields {
+  display: flex;
+  flex: 1;
+  gap: 16px;
+
+  mat-form-field {
+    flex: 1;
+  }
+}
+
+.add-entity-button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.actions-footer {
+  position: sticky;
+  bottom: 0;
+  background: white;
+  padding: 16px 24px;
+  border-top: 1px solid rgba(0,0,0,0.12);
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin: 24px -24px -24px -24px; /* Extend to full width */
+} 

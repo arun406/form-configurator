@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+app-header {
+  flex-shrink: 0;
+}
+
+app-main-nav {
+  flex-grow: 1;
+  min-height: 0; /* Prevents flexbox overflow issues in some browsers */
+}
